@@ -10,7 +10,7 @@ class UserController {
             firstName,
             lastName,
             dateOfBirth,
-            country,
+            currentPlace,
             education,
             workExperience
         } = req.body;
@@ -21,7 +21,7 @@ class UserController {
             firstName,
             lastName,
             dateOfBirth,
-            country,
+            currentPlace,
             education,
             workExperience
         };

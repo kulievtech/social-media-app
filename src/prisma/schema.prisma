@@ -7,25 +7,100 @@ generator client {
     provider = "prisma-client-js"
 }
 
+// User model
+
 enum AccountStatus {
     ACTIVE
     INACTIVE
 }
 
+type Place {
+    city    String
+    region  String
+    country String
+}
+
+type WorkExperience {
+    startYear Int
+    endYear   Int
+    company   String
+    position  String
+}
+
+type Education {
+    startYear Int
+    endYear   Int
+    school    String
+    degree    String
+    major     String
+}
+
 model User {
-    id                               String        @id @default(auto()) @map("_id") @db.ObjectId
-    email                            String        @unique
+    id                               String          @id @default(auto()) @map("_id") @db.ObjectId
+    email                            String          @unique
     password                         String
     firstName                        String
     lastName                         String
-    country                          String?
-    education                        String?
-    workExperience                   String?
+    currentPlace                     Place?
+    education                        Education?
+    workExperience                   WorkExperience?
     dateOfBirth                      DateTime
-    status                           AccountStatus @default(INACTIVE)
+    status                           AccountStatus   @default(INACTIVE)
     activationToken                  String?
     passwordResetToken               String?
     passwordResetTokenExpirationDate DateTime?
-    createdAt                        DateTime      @default(now())
-    updatedAt                        DateTime      @updatedAt
+    createdAt                        DateTime        @default(now())
+    updatedAt                        DateTime        @updatedAt
+}
+
+// Post model
+
+enum PostVisibility {
+    PUBLIC
+    PRIVATE
+    FRIENDS_ONLY
+}
+
+type Content {
+    text String?
+}
+
+type Comment {
+    id     String
+    text   String
+    userId String @db.ObjectId
+}
+
+model Post {
+    id         String         @id @default(auto()) @map("_id") @db.ObjectId
+    content    Content
+    comments   Comment[]
+    likes      Int
+    userId     String         @db.ObjectId
+    visibility PostVisibility @default(PUBLIC)
+    createdAt  DateTime       @default(now())
+    updatedAt  DateTime       @updatedAt
+}
+
+model Like {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId    String   @db.ObjectId
+    postId    String   @db.ObjectId
+    likedTime DateTime @default(now())
+}
+
+// Friendship model
+
+enum FrienshipStatus {
+    PENDING
+    ACCEPTED
+}
+
+model Friendship {
+    id        String          @id @default(auto()) @map("_id") @db.ObjectId
+    userAId   String          @db.ObjectId
+    userBId   String          @db.ObjectId
+    status    FrienshipStatus @default(PENDING)
+    createdAt DateTime        @default(now())
+    updatedAt DateTime        @updatedAt
 }
