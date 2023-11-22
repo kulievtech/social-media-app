@@ -18,6 +18,9 @@ model User {
     password                         String
     firstName                        String
     lastName                         String
+    country                          String?
+    education                        String?
+    workExperience                   String?
     dateOfBirth                      DateTime
     status                           AccountStatus @default(INACTIVE)
     activationToken                  String?

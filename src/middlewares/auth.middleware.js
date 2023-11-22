@@ -24,19 +24,6 @@ class AuthMiddleware {
             throw new CustomError(error.message, 500);
         }
     };
-
-    isUser = (req, _, next) => {
-        const { userId } = req;
-
-        if (!userId) {
-            throw new CustomError(
-                "Forbidden: You are not authorized to perform this action",
-                403
-            );
-        }
-
-        next();
-    };
 }
 
 export const authMiddleware = new AuthMiddleware();
