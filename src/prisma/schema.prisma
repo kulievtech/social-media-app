@@ -44,6 +44,7 @@ model User {
     currentPlace                     Place?
     education                        Education[]
     workExperience                   WorkExperience[]
+    posts                            Post[]
     dateOfBirth                      DateTime
     status                           AccountStatus    @default(INACTIVE)
     activationToken                  String?
@@ -71,9 +72,10 @@ model Post {
     id         String         @id @default(auto()) @map("_id") @db.ObjectId
     content    String
     comments   Comment[]
-    likeCount  Like[]
     userId     String         @db.ObjectId
+    user       User           @relation(fields: [userId], references: [id])
     visibility PostVisibility @default(PUBLIC)
+    likeCount  Int            @default(0)
     createdAt  DateTime       @default(now())
     updatedAt  DateTime       @updatedAt
 }
@@ -83,7 +85,6 @@ model Like {
     userId    String   @db.ObjectId
     postId    String   @db.ObjectId
     likedTime DateTime @default(now())
-    post      Post     @relation(fields: [postId], references: [id])
 }
 
 // Friendship model
