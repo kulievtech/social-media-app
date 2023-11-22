@@ -187,7 +187,7 @@ class UserService {
                 id: true,
                 dateOfBirth: true,
                 education: true,
-                country: true,
+                currentPlace: true,
                 workExperience: true
             }
         });
