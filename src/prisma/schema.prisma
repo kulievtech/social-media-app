@@ -36,21 +36,21 @@ type Education {
 }
 
 model User {
-    id                               String          @id @default(auto()) @map("_id") @db.ObjectId
-    email                            String          @unique
+    id                               String           @id @default(auto()) @map("_id") @db.ObjectId
+    email                            String           @unique
     password                         String
     firstName                        String
     lastName                         String
     currentPlace                     Place?
-    education                        Education?
-    workExperience                   WorkExperience?
+    education                        Education[]
+    workExperience                   WorkExperience[]
     dateOfBirth                      DateTime
-    status                           AccountStatus   @default(INACTIVE)
+    status                           AccountStatus    @default(INACTIVE)
     activationToken                  String?
     passwordResetToken               String?
     passwordResetTokenExpirationDate DateTime?
-    createdAt                        DateTime        @default(now())
-    updatedAt                        DateTime        @updatedAt
+    createdAt                        DateTime         @default(now())
+    updatedAt                        DateTime         @updatedAt
 }
 
 // Post model
@@ -61,10 +61,6 @@ enum PostVisibility {
     FRIENDS_ONLY
 }
 
-type Content {
-    text String?
-}
-
 type Comment {
     id     String
     text   String
@@ -73,9 +69,9 @@ type Comment {
 
 model Post {
     id         String         @id @default(auto()) @map("_id") @db.ObjectId
-    content    Content
+    content    String
     comments   Comment[]
-    likes      Int
+    likeCount  Like[]
     userId     String         @db.ObjectId
     visibility PostVisibility @default(PUBLIC)
     createdAt  DateTime       @default(now())
@@ -87,6 +83,7 @@ model Like {
     userId    String   @db.ObjectId
     postId    String   @db.ObjectId
     likedTime DateTime @default(now())
+    post      Post     @relation(fields: [postId], references: [id])
 }
 
 // Friendship model
