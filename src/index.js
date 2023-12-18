@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { GlobalError } from "./middlewares/global-error.middleware.js";
 
 import { userRouter } from "./routes/user.routes.js";
+import { postRouter } from "./routes/post.routes.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 4000;
 
 app.use("/users", userRouter);
+app.use("/posts", postRouter);
 app.use(GlobalError.handle);
 
 app.listen(PORT, () => {

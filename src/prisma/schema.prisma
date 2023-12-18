@@ -44,7 +44,6 @@ model User {
     currentPlace                     Place?
     education                        Education[]
     workExperience                   WorkExperience[]
-    posts                            Post[]
     dateOfBirth                      DateTime
     status                           AccountStatus    @default(INACTIVE)
     activationToken                  String?
@@ -73,7 +72,6 @@ model Post {
     content    String
     comments   Comment[]
     userId     String         @db.ObjectId
-    user       User           @relation(fields: [userId], references: [id])
     visibility PostVisibility @default(PUBLIC)
     likeCount  Int            @default(0)
     createdAt  DateTime       @default(now())
